@@ -1,0 +1,48 @@
+{% if 'grafana' in group_names %}
+# 🔹 This is a Prometheus Federation Server configuration
+
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+{% for target in federation_targets %}
+  - job_name: '{{ target.name }}'
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{__name__=~".+"}'
+    static_configs:
+      - targets: ['{{ target.host }}:{{ target.port }}']
+{% endfor %}
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets:
+{% for target in node_exporter_targets %}
+          - '{{ target }}'
+{% endfor %}
+
+{% else %}
+# 🔹 This is a standard Prometheus node configuration
+
+global:
+  scrape_interval: 15s
+  external_labels:
+    prometheus_instance: "{{ inventory_hostname }}"
+
+scrape_configs:
+  - job_name: 'self'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          instance: '{{ inventory_hostname }}'
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets:
+{% for target in node_exporter_targets %}
+          - '{{ target }}'
+{% endfor %}
+{% endif %}
+

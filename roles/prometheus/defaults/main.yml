@@ -1,0 +1,9 @@
+---
+# defaults file for roles/prometheus
+
+prometheus_version: "3.3.1"
+docker_compose_path: "/opt/prometheus"
+prometheus_container_name: "prometheus_{{ ansible_hostname }}"
+image_name: "bitnami/prometheus"
+prometheus_container_ports: 9090
+

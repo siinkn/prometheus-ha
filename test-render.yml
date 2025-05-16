@@ -1,0 +1,10 @@
+- name: Render HAProxy config through role
+  hosts: grafana
+  become: yes
+
+  tasks:
+    - name: Include HAProxy render task
+      include_role:
+        name: haproxy
+        tasks_from: render
+

@@ -1,0 +1,14 @@
+- name: Deploy Prometheus node
+  hosts: prometheus
+  become: yes
+
+  roles:
+    - prometheus
+    - node_exporter
+
+- name: stack VM3 
+  hosts: grafana
+  become: yes
+  roles:
+    - federation_stack
+

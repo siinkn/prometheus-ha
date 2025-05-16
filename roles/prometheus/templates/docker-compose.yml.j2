@@ -1,0 +1,13 @@
+services:
+ {{ prometheus_container_name }}:
+   image: {{ image_name }}:{{ prometheus_version }}
+   container_name: {{ prometheus_container_name }}
+   volumes:
+     - ./config/:/opt/bitnami/prometheus/conf/
+   ports:
+     - "{{ prometheus_container_ports }}:{{ prometheus_container_ports }}"
+   networks:
+     - monitoring
+
+networks:
+  monitoring:

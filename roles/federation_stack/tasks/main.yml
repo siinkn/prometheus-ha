@@ -1,0 +1,16 @@
+- name: Include Prometheus (Federation Server)
+  include_role:
+    name: prometheus
+
+- name: Include HAProxy
+  include_role:
+    name: haproxy
+
+- name: Include Grafana
+  include_role:
+    name: grafana
+
+- name: Include Node Exporter
+  include_role:
+    name: node_exporter
+
